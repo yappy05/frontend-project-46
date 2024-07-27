@@ -1,22 +1,10 @@
 #!/usr/bin/env node
-import program from "commander";
+import { program } from "commander";
 
 program.description("Compares two configuration files and shows a difference.");
 program.version("0.0.1");
+program.option("-f, --format [type]", "output format");
+program.argument("<filePath1>", "path to first file");
+program.argument("<filePath2>", "path to second file");
+
 program.parse();
-// const { Command } = require("commander");
-// const program = new Command();
-
-// program
-//   .argument("<name>")
-//   .option("-t, --title <honorific>", "title to use before name")
-//   .option("-d, --debug", "display some debugging")
-//   .action((name, options, command) => {
-//     if (options.debug) {
-//       console.error("Called %s with options %o", command.name(), options);
-//     }
-//     const title = options.title ? `${options.title} ` : "";
-//     console.log(`Thank-you ${title}${name}`);
-//   });
-
-// program.parse();
