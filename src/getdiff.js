@@ -1,5 +1,5 @@
-import parseJSON from "./parseJSON.js";
-import _ from "lodash";
+import _ from 'lodash';
+import parseJSON from './parseJSON.js';
 
 const isGeneralKey = (ob1, ob2, key) => {
   if (_.has(ob1, key) && _.has(ob2, key)) return true;
@@ -11,6 +11,8 @@ const isSameValue = (ob1, ob2, key) => {
   return false;
 };
 
+const coverJsontoString = (json) => JSON.stringify(json, null, 1).replaceAll('"', '').replaceAll(',', '');
+
 export default (path1, path2) => {
   const file1 = parseJSON(path1);
   const file2 = parseJSON(path2);
@@ -19,28 +21,19 @@ export default (path1, path2) => {
   const keysFile2 = _.keys(file2);
 
   const union = _.union(keysFile1, keysFile2).sort();
-  const diff = union.reduce((acm, key) => {
+  const diff = union.reduce((accumulator, key) => {
     if (isGeneralKey(file1, file2, key) && isSameValue(file1, file2, key)) {
-      acm += `\n    ${key}: ${_.get(file1, key)}`;
+      accumulator[`   ${key}`] = _.get(file1, key);
     } else {
       if (_.has(file1, key)) {
-        acm += `\n  - ${key}: ${_.get(file1, key)}`;
+        accumulator[` - ${key}`] = _.get(file1, key);
       }
       if (_.has(file2, key)) {
-        acm += `\n  + ${key}: ${_.get(file2, key)}`;
+        accumulator[` + ${key}`] = _.get(file2, key);
       }
     }
-    if (key === union.at(-1)) acm += "\n}";
-    return acm;
-  }, "{");
-
-  return diff;
+    return accumulator;
+  }, {});
+  return coverJsontoString(diff);
 };
-
-// console.log(_.has(file1, "follow"));
-// console.log(file1);
-
-// console.log(IsGeneralKey(file1, file2, "timeout"));
-// console.log(isSameValue(file1, file2, "timeout"));
-// console.log(IsGeneralKey(file1, file2, "host"));
-// console.log(isSameValue(file1, file2, "host"));
+// console.log(func("files/file1.json", "files/file2.json"));

@@ -1,11 +1,11 @@
-import { accessSync, readFileSync } from "node:fs";
+import { accessSync, readFileSync } from 'node:fs';
 
 export default (path) => {
   if (path === undefined) return null;
   try {
     // проверки существования относительного и абсолютного пути
-    // accessSync(path);
-    const arrayJSON = readFileSync(path, "utf-8");
+    accessSync(path);
+    const arrayJSON = readFileSync(path, 'utf-8');
     return JSON.parse(arrayJSON);
   } catch (err) {
     console.error(err);
