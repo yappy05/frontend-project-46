@@ -25,3 +25,13 @@ describe("correct path", () => {
     expect(parseJSON(file)).toEqual(fileJSON);
   });
 });
+
+describe("wrong path", () => {
+  test("no exist file", () => {
+    file = "no/exist/file";
+    expect(parseJSON(file)).toBeNull();
+  });
+  test("empety path", () => {
+    expect(parseJSON()).toBeNull();
+  });
+});
