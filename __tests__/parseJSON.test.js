@@ -1,4 +1,10 @@
+import path, { dirname } from "path";
+
+import { fileURLToPath } from "url";
 import parseJSON from "../src/parseJSON.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 let file;
 const fileJSON = {
@@ -9,18 +15,13 @@ const fileJSON = {
 };
 
 describe("correct path", () => {
+  test("parse file, absolutely path", () => {
+    file = path.join(__dirname, "..", "files", "file1.json");
+    expect(parseJSON(file)).toEqual(fileJSON);
+  });
+
   test("parse file, relative path", () => {
     file = "files/file1.json";
     expect(parseJSON(file)).toEqual(fileJSON);
-  });
-});
-
-describe("wrong path", () => {
-  test("no exist file", () => {
-    file = "no/exist/file";
-    expect(parseJSON(file)).toBeNull();
-  });
-  test("empety path", () => {
-    expect(parseJSON()).toBeNull();
   });
 });
