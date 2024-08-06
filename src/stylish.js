@@ -4,16 +4,17 @@ export default (fileJSON) => {
   const iter = (node, deep) => {
     const keys = _.keys(node);
     const style = keys.reduce((acm, key) => {
+      let cloneAcm = _.cloneDeep(acm);
       const spaceCount = key.startsWith('+ ') || key.startsWith('- ') ? 4 * deep - 2 : 4 * deep;
       if (_.isObject(node[key])) {
-        acm += `${' '.repeat(spaceCount)}${key}: {\n${iter(
+        cloneAcm += `${' '.repeat(spaceCount)}${key}: {\n${iter(
           node[key],
           deep + 1,
         )}${' '.repeat(4 * deep)}}\n`;
-        return acm;
+        return cloneAcm;
       }
-      acm += `${' '.repeat(spaceCount)}${key}: ${_.get(node, key)}\n`;
-      return acm;
+      cloneAcm += `${' '.repeat(spaceCount)}${key}: ${_.get(node, key)}\n`;
+      return cloneAcm;
     }, '');
     return style;
   };
