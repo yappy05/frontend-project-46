@@ -1,11 +1,11 @@
 import _ from 'lodash';
-// import parseJSON from "./parseJSON.js";
-// import createAbsolutePath from "./createAbsolutePath.js";
-// import stylish from "./stylish.js";
+// import parseJSON from './parseJSON.js';
+// import createAbsolutePath from './createAbsolutePath.js';
+// import stylish from './stylish.js';
 import parsers from './parsers.js';
 
-// const file1 = createAbsolutePath("__fixtures__/deepfile-1.json");
-// const file2 = createAbsolutePath("__fixtures__/deepfile-2.json");
+// const file1 = createAbsolutePath('__fixtures__/deepfile-1.json');
+// const file2 = createAbsolutePath('__fixtures__/deepfile-2.json');
 
 const isObject = (ob) => ob instanceof Object;
 const hasKey = (ob, key) => (ob[key] ? ob[key] : {});
