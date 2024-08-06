@@ -24,6 +24,29 @@ export default (fileJSON) => {
 // export default (fileJSON) => {
 //   const iter = (node, deep) => {
 //     const keys = _.keys(node);
+//     const style = keys.reduce((acm, key) => {
+//       const spaceCount =
+//         key.startsWith("+ ") || key.startsWith("- ") ? 4 * deep - 2 : 4 * deep;
+//       if (_.isObject(node[key])) {
+//         return {
+//           ...acm,
+//           [`${" ".repeat(spaceCount)}${key}:`]: iter(node[key], deep + 1),
+//         };
+//       }
+//       return {
+//         ...acm,
+//         [`${" ".repeat(spaceCount)}${key}`]: _.get(node, key),
+//       };
+//     }, {});
+//     return style;
+//   };
+//   const result = iter(_.cloneDeep(fileJSON), 1);
+//   return JSON.stringify(result, undefined, 1);
+// };
+
+// export default (fileJSON) => {
+//   const iter = (node, deep) => {
+//     const keys = _.keys(node);
 //     const style = keys.reduce((accumulator, key) => {
 //       const spaceCount =
 //         key.startsWith("+ ") || key.startsWith("- ") ? 4 * deep - 2 : 4 * deep;
