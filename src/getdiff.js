@@ -1,39 +1,37 @@
-import _ from 'lodash';
-import parseJSON from './parseJSON.js';
+import _ from "lodash";
+import parseJSON from "./parseJSON.js";
 
-const isGeneralKey = (ob1, ob2, key) => {
-  if (_.has(ob1, key) && _.has(ob2, key)) return true;
-  return false;
-};
+const isObject = (ob) => (ob instanceof Object ? true : false);
+const hasKey = (ob, key) => (ob[key] ? ob[key] : {});
+const isSameKey = (ob1, ob2, key) =>
+  _.has(ob1, key) && _.has(ob2, key) ? true : false;
+const isSameValue = (ob1, ob2, key) =>
+  _.get(ob1, key) === _.get(ob2, key) ? true : false;
+const isSameKeyValuePair = (ob1, ob2, key) =>
+  isSameKey(ob1, ob2, key) && isSameValue(ob1, ob2, key);
+const coverJsontoString = (json) =>
+  JSON.stringify(json, null, 1).replaceAll('"', "").replaceAll(",", "");
 
-const isSameValue = (ob1, ob2, key) => {
-  if (_.get(ob1, key) === _.get(ob2, key)) return true;
-  return false;
-};
-
-const coverJsontoString = (json) => JSON.stringify(json, null, 1).replaceAll('"', '').replaceAll(',', '');
-
-export default (path1, path2) => {
-  const file1 = parseJSON(path1);
-  const file2 = parseJSON(path2);
-
-  const keysFile1 = _.keys(file1);
-  const keysFile2 = _.keys(file2);
-
-  const union = _.union(keysFile1, keysFile2).sort();
-  const diff = union.reduce((accumulator, key) => {
-    if (isGeneralKey(file1, file2, key) && isSameValue(file1, file2, key)) {
-      accumulator[`   ${key}`] = _.get(file1, key);
-    } else {
-      if (_.has(file1, key)) {
-        accumulator[` - ${key}`] = _.get(file1, key);
-      }
-      if (_.has(file2, key)) {
-        accumulator[` + ${key}`] = _.get(file2, key);
-      }
+const getdiff = (ob1, ob2) => {
+  const keysOb1 = _.keys(ob1);
+  const keysOb2 = _.keys(ob2);
+  const union = _.union(keysOb1, keysOb2).sort();
+  //   console.log(union);
+  const diff = union.reduce((acm, key) => {
+    if (isObject(ob1[key]) && isObject(ob2[key])) {
+      acm[key] = getdiff(hasKey(ob1, key), hasKey(ob2, key));
+      return acm;
     }
-    return accumulator;
+
+    if (isSameKeyValuePair(ob1, ob2, key)) {
+      acm["" + key] = _.get(ob1, key);
+    } else {
+      if (_.has(ob1, key)) acm["- " + key] = _.get(ob1, key);
+      if (_.has(ob2, key)) acm["+ " + key] = _.get(ob2, key);
+    }
+    return acm;
   }, {});
-  return coverJsontoString(diff);
+  return diff;
 };
+export default getdiff;
 // console.log(func("files/file1.json", "files/file2.json"));
