@@ -1,5 +1,11 @@
 import _ from "lodash";
 import parseJSON from "./parseJSON.js";
+import createAbsolutePath from "./createAbsolutePath.js";
+import stylish from "./stylish.js";
+import parsers from "./parsers.js";
+
+const file1 = createAbsolutePath("__fixtures__/deepfile-1.json");
+const file2 = createAbsolutePath("__fixtures__/deepfile-2.json");
 
 const isObject = (ob) => (ob instanceof Object ? true : false);
 const hasKey = (ob, key) => (ob[key] ? ob[key] : {});
@@ -12,14 +18,15 @@ const isSameKeyValuePair = (ob1, ob2, key) =>
 const coverJsontoString = (json) =>
   JSON.stringify(json, null, 1).replaceAll('"', "").replaceAll(",", "");
 
-const getdiff = (ob1, ob2) => {
+const compareTwoFiles = (ob1, ob2) => {
+  if (ob1 === null || ob2 === null) return null;
   const keysOb1 = _.keys(ob1);
   const keysOb2 = _.keys(ob2);
   const union = _.union(keysOb1, keysOb2).sort();
   //   console.log(union);
   const diff = union.reduce((acm, key) => {
     if (isObject(ob1[key]) && isObject(ob2[key])) {
-      acm[key] = getdiff(hasKey(ob1, key), hasKey(ob2, key));
+      acm[key] = compareTwoFiles(hasKey(ob1, key), hasKey(ob2, key));
       return acm;
     }
 
@@ -33,5 +40,15 @@ const getdiff = (ob1, ob2) => {
   }, {});
   return diff;
 };
+
+// console.log(stylish(compareTwoFiles(parseJSON(file1), parseJSON(file2))));
+const getdiff = (file1, file2) => {
+  const fromatFile1 = parsers(file1);
+  const fromatFile2 = parsers(file2);
+  const diff = compareTwoFiles(fromatFile1, fromatFile2);
+  const styleDiff = stylish(diff);
+  return styleDiff;
+};
+// console.log(getdiff(file1, file2));
 export default getdiff;
 // console.log(func("files/file1.json", "files/file2.json"));
