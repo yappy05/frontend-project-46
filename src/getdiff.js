@@ -1,17 +1,18 @@
-import _ from 'lodash';
-// import parseJSON from './parseJSON.js';
-// import createAbsolutePath from './createAbsolutePath.js';
-// import stylish from './stylish.js';
-import parsers from './parsers.js';
+import _ from "lodash";
+import parseJSON from "./parseJSON.js";
+import createAbsolutePath from "./createAbsolutePath.js";
+import stylish from "./stylish.js";
+import parsers from "./parsers.js";
 
-// const file1 = createAbsolutePath('__fixtures__/deepfile-1.json');
-// const file2 = createAbsolutePath('__fixtures__/deepfile-2.json');
+const file1 = createAbsolutePath("__fixtures__/deepfile-1.json");
+const file2 = createAbsolutePath("__fixtures__/deepfile-2.json");
 
 const isObject = (ob) => ob instanceof Object;
 const hasKey = (ob, key) => (ob[key] ? ob[key] : {});
 const isSameKey = (ob1, ob2, key) => !!(_.has(ob1, key) && _.has(ob2, key));
 const isSameValue = (ob1, ob2, key) => _.get(ob1, key) === _.get(ob2, key);
-const isSameKeyValue = (ob1, ob2, key) => isSameKey(ob1, ob2, key) && isSameValue(ob1, ob2, key);
+const isSameKeyValue = (ob1, ob2, key) =>
+  isSameKey(ob1, ob2, key) && isSameValue(ob1, ob2, key);
 
 const compareTwoFiles = (ob1, ob2) => {
   if (ob1 === null || ob2 === null) return null;
@@ -35,14 +36,15 @@ const compareTwoFiles = (ob1, ob2) => {
     }
     let stepAcm = {};
     if (_.has(ob1, key)) stepAcm = { ...acm, [`- ${key}`]: _.get(ob1, key) };
-    if (_.has(ob2, key)) stepAcm = { ...acm, [`+ ${key}`]: _.get(ob2, key) };
+    if (_.has(ob2, key))
+      stepAcm = { ...stepAcm, ...acm, [`+ ${key}`]: _.get(ob2, key) };
 
     return { ...stepAcm };
   }, {});
   return diff;
 };
 
-// console.log(stylish(compareTwoFiles(parseJSON(file1), parseJSON(file2))));
+console.log(stylish(compareTwoFiles(parseJSON(file1), parseJSON(file2))));
 const getdiff = (file1, file2) => {
   const fromatFile1 = parsers(file1);
   const fromatFile2 = parsers(file2);
