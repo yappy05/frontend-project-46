@@ -14,15 +14,31 @@ const isYaml = (file) => {
   return false;
 };
 
+const isTxt = (file) => {
+  if (file === undefined) return undefined;
+  if (path.extname(file) === '.txt') return true;
+  return false;
+};
+
 const toDetermineFormatFile = (file) => {
   if (isJson(file)) return 'json';
   if (isYaml(file)) return 'yaml';
+  if (isTxt(file)) return 'txt';
   return null;
 };
 
-export default (file) => {
+const parseTxt = (file) => {
+  const arrayLines = file.split('\n').map((line) => line.replace('\r', ''));
+  const result = arrayLines.join('\n');
+  return result;
+};
+
+const parsers = (file) => {
   const format = toDetermineFormatFile(file);
   if (format === 'json') return JSON.parse(readFileSync(file, 'utf-8'));
   if (format === 'yaml') return yaml.load(readFileSync(file, 'utf-8'));
+  if (format === 'txt') return parseTxt(readFileSync(file, 'utf-8'));
   return undefined;
 };
+
+export default parsers;
