@@ -10,3 +10,4 @@ replay asciinema task-3: https://asciinema.org/a/8ZtUSO23bCjvtLeUaDQqbVuZk
 replay asciinema task-6: https://asciinema.org/a/Gv2iAjFQIcfPS7ArLgc0V7Fb4
 replay asciinema task-7: https://asciinema.org/a/s3O7zTAleOGhlmHE75VJkg7cx
 replay asciinema task-8: https://asciinema.org/a/3ipimRYNhHPlFA0yt1FKkbsrT
+replay asciinema task-9: https://asciinema.org/a/g4sc7IfELLWXL08NZQV4BWJKm
