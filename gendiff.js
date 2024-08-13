@@ -10,4 +10,5 @@ program
   .arguments("<filePath2>", "path to first file");
 program.action((filePath1, filePath2) => {
   console.log(getdiff(filePath1, filePath2, program.opts().format));
+  program.parse();
 });
