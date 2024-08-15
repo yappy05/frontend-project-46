@@ -1,14 +1,14 @@
-import stylish from './stylish.js';
-import plain from './plain.js';
-import json from './json.js';
+import stylish from "./stylish.js";
+import plain from "./plain.js";
+import json from "./json.js";
 
 const buildFrormatter = (format) => {
   switch (format) {
-    case 'stylish':
+    case "stylish":
       return stylish;
-    case 'plane':
+    case "plain":
       return plain;
-    case 'json':
+    case "json":
       return json;
     default:
       return stylish;
