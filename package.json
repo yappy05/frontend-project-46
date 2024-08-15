@@ -5,7 +5,7 @@
   "description": "[![Actions Status](https://github.com/yappy05/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/yappy05/frontend-project-46/actions)",
   "main": "gendiff.js",
   "bin": {
-    "gendiff": "gendiff.js"
+    "getdiff": "src/getdiff.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
