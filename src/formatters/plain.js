@@ -52,7 +52,7 @@ const plain = (file) => {
         iter(node[child], newFilePath);
       } else if (child.startsWith("- ")) {
         if (
-          children[i + 1].startsWith("+ ") &&
+          children[i + 1].toString().startsWith("+ ") &&
           child.substring(2) === children[i + 1].substring(2)
         ) {
           paths.push(
