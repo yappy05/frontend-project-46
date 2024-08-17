@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import path from 'path';
+import _ from "lodash";
+import path from "path";
 
 // import compareTwoFiles from "./compareTwoFiles.js";
 
@@ -15,7 +15,7 @@ const checkStringValue = (node, key) => {
 };
 
 const validValue = (node, key) => {
-  if (_.isObject(_.get(node, key))) return '[complex value]';
+  if (_.isObject(_.get(node, key))) return "[complex value]";
   return checkStringValue(node, key);
 };
 
@@ -27,63 +27,65 @@ const plain = (file) => {
       const child = children[i];
       const newFilePath = path.join(filePath, child);
       if (_.isObject(node[child])) {
-        if (child.startsWith('- ')) {
+        if (child.toString().startsWith("- ")) {
           if (
-            children[i + 1].startsWith('+ ')
-            && child.substring(2) === children[i + 1].substring(2)
+            children[i + 1].toString().startsWith("+ ") &&
+            child.substring(2) === children[i + 1].substring(2)
           ) {
             paths.push(
               `Property '${newFilePath}' was updated. From ${validValue(
                 node,
-                child,
-              )} to ${validValue(node, children[i + 1])}`,
+                child
+              )} to ${validValue(node, children[i + 1])}`
             );
             i += 1;
             // continue;
           } else paths.push(`Property '${newFilePath}' was removed`);
-        } else if (child.startsWith('+ ')) {
+        } else if (child.startsWith("+ ")) {
           paths.push(
             `Property '${newFilePath}' was added with value: ${validValue(
               node,
-              child,
-            )}`,
+              child
+            )}`
           );
         }
         iter(node[child], newFilePath);
-      } else if (child.startsWith('- ')) {
+      } else if (child.startsWith("- ")) {
         if (
-          children[i + 1].startsWith('+ ')
-          && child.substring(2) === children[i + 1].substring(2)
+          children[i + 1].startsWith("+ ") &&
+          child.substring(2) === children[i + 1].substring(2)
         ) {
           paths.push(
             `Property '${newFilePath}' was updated. From ${validValue(
               node,
-              child,
-            )} to ${validValue(node, children[i + 1])}`,
+              child
+            )} to ${validValue(node, children[i + 1])}`
           );
           i += 1;
         } else {
           paths.push(`Property '${newFilePath}' was removed`);
         }
-      } else if (child.startsWith('+ ')) {
+      } else if (child.startsWith("+ ")) {
         paths.push(
           `Property '${newFilePath}' was added with value: ${validValue(
             node,
-            child,
-          )}`,
+            child
+          )}`
         );
       }
     }
   };
 
-  iter(file, '');
-  const formatPaths = paths.map((item) => item
-    .replaceAll('/+ ', '.')
-    .replaceAll('/- ', '.')
-    .replaceAll('/', '.')
-    .replaceAll('- ', '')
-    .replaceAll('+ ', ''));
-  const result = formatPaths.join('\n');
+  iter(file, "");
+  const formatPaths = paths.map((item) =>
+    item
+      .replaceAll("/+ ", ".")
+      .replaceAll("/- ", ".")
+      .replaceAll("/", ".")
+      .replaceAll("- ", "")
+      .replaceAll("+ ", "")
+  );
+  const result = formatPaths.join("\n");
   return result;
 };
 
