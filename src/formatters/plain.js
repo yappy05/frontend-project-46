@@ -14,8 +14,9 @@ const checkStringValue = (node, key) => {
   if (value === true) return true;
   if (value === false) return false;
   if (value === null) return null;
+  if (value == "") return `''`;
   if (!isNaN(value)) return value;
-  if (value == "") return `'empty'`;
+
   return `'${value}'`;
 };
 
