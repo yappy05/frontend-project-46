@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _, { isNumber } from "lodash";
 import path from "path";
 import compareTwoFiles from "../compareTwoFiles.js";
 import parsers from "../parsers.js";
@@ -14,6 +14,7 @@ const checkStringValue = (node, key) => {
   if (value === true) return true;
   if (value === false) return false;
   if (value === null) return null;
+  if (isNumber(value)) return value;
   return `'${value}'`;
 };
 
