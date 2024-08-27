@@ -98,6 +98,5 @@ const plain = (file) => {
   const result = formatPaths.join("\n");
   return result;
 };
-console.log(plain(compareTwoFiles(parsers(file1), parsers(file2))));
 
 export default plain;
